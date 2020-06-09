@@ -483,16 +483,9 @@ impl_pretty_debug!(Message);
 impl Message {
     /// **If you just want to sign an arbitrary message use `Message::from_hashed_data` instead.**
     ///
-    /// Converts a `MESSAGE_SIZE`-byte slice to a message object. **WARNING:** the slice has to be a
-    /// cryptographically secure hash of the actual message that's going to be signed. Otherwise
-    /// the result of signing isn't a
-    /// [secure signature](https://twitter.com/pwuille/status/1063582706288586752).
+    /// Converts a `MESSAGE_SIZE`-byte slice to a message object.
     #[inline]
     pub fn from_slice(data: &[u8]) -> Result<Message, Error> {
-        if data == [0; constants::MESSAGE_SIZE] {
-            return Err(Error::InvalidMessage);
-        }
-
         match data.len() {
             constants::MESSAGE_SIZE => {
                 let mut ret = [0; constants::MESSAGE_SIZE];
